@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 31, 2018 at 02:48 PM
+-- Generation Time: Jul 31, 2018 at 02:57 PM
 -- Server version: 5.7.14
 -- PHP Version: 7.0.10
 
@@ -56,6 +56,7 @@ CREATE TABLE `reports` (
   `userId` int(11) NOT NULL,
   `timeIn` varchar(100) NOT NULL,
   `date` varchar(50) NOT NULL,
+  `current_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `summary` text NOT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'unread',
   `departmentId` int(11) NOT NULL,
