@@ -7,4 +7,5 @@ $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 if (!$conn) {
     die("could not connect to database because " . mysqli_error($conn));
 }
+
 ?>
