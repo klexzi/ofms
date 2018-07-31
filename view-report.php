@@ -1,25 +1,34 @@
-<?php require('includes/functions.php'); ?>
-<!doctype html>
-<html lang="en">
-  <head>
-  <?php require('assets/layouts/head.php'); ?>
-  <?php 
-  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require('config/config.php');
-    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-    $task = $_POST['task_desc'];
-    $timeIn = $_POST['timeIn'];
-    $date = $_POST['date'];
-    $query = mysqli_query($conn, "INSERT INTO `reports` (`summary`, `timeIn`, `date`)
-       VALUES ('$task', '$timeIn', '$date')");
-    if (!$query) {
-      die("error" . mysqli_error($conn));
-    }
-  }
-
-
-  ?>
+<?php
+require('includes/functions.php');
+if (!isset($_GET['rid'])) {
+    die("");
+} else {
+    $rid = $_GET['rid'];
+}
+?>
+    <!doctype html >
+    <html lang = "en" >
+    <head >
+    <?php require('assets/layouts/head.php'); ?>
+  <?php
+    $table = 'reports';
+    $param = "WHERE id=$rid";
+    $reports_sel = select('reports', $param);
+    $row_rep = $reports_sel->fetch_array();
+    $userId = $row_rep['userId'];
+    $timeIn = $row_rep['timeIn'];
+    $date = $row_rep['date'];
+    $summary = $row_rep['summary'];
+    $dateSubmitted = $row_rep['current_date'];
+    $depId = $row_rep['departmentId'];
+    $level = $row_rep['level'];
+    $user_sel = select('staffs', "WHERE id=$userId");
+    $row_user = $user_sel->fetch_array();
+    $userName = $row_user['name'];
+    $dept_sel = select('departments', "WHERE id=$depId");
+    $row_dept = $dept_sel->fetch_array();
+    $deptName = $row_dept['dept_name'];
+    ?>
   </head>
 
   <body>
@@ -32,30 +41,6 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
-              <!-- <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file"></span>
-                  Orders
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="shopping-cart"></span>
-                  Products
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Customers
-                </a>
-              </li> -->
               <li class="nav-item">
                 <a class="nav-link" href="reports.php">
                   <span data-feather="bar-chart-2"></span>
@@ -102,14 +87,14 @@
                 </a>
               </li>
             </ul> -->
-          <!-- </div> -->
+          </div>
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Reports</h1>
-            <!-- <div class="btn-toolbar mb-2 mb-md-0"> -->
-              <!-- <div class="btn-group mr-2">
+            <h1 class="h2">Report</h1>
+            <!-- <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
                 <button class="btn btn-sm btn-outline-secondary">Export</button>
               </div>
@@ -119,39 +104,17 @@
               </button>
             </div> -->
           </div>
-
+          
+          <div class="block">
+          <p> Date: <?php echo $date ?></p>
+          <p> Time in: <?php echo $timeIn ?> </p>
+          <p> Date Submitted: <?php echo $dateSubmitted ?> </p>
+          <p> Report Summary: <?php echo $summary ?> </p>
+          <p> Submitted by: <?php echo $userName ?> </p>
+          <p> Role: <?php echo $deptName ?> </p>
+          </div>
           <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
-          <div class="col-sm-8 col-md-8  offset-2" >
-   <form class="pt-5 jumbotron"  action="" method="POST" role="form">
-        <legend><h3>REPORT FOR THE DAY</h3></legend>
-    
-        
-
-        <div class="form-group">
-            <div class="form-group">
-                <label for="input" class="col-sm-2 control-label">TIME IN</label>
-                    <input type="time" name="timeIn" id="input" class="form-control" value="" required="required" title="">
-            </div>
-            <div class="form-group">
-                <label for="input" class="col-sm-2 control-label">DATE</label>
-                    <input type="date" name="date" id="input" class="form-control" value="" required="required" title="">
-            </div>
-
-            <label for="task_desc">REPORT SUMMARY</label> 
-            <textarea type="text" name="task_desc" id="task_desc" class="form-control" rows="3" required="required" placeholder="Type in the summary of the report"></textarea> 
-            <br/>
-            
-
-            
-
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    
-    </div>
         </main>
       </div>
     </div>

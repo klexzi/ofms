@@ -3,23 +3,11 @@
 <html lang="en">
   <head>
   <?php require('assets/layouts/head.php'); ?>
-  <?php 
-  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require('config/config.php');
-    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
-
-    $task = $_POST['task_desc'];
-    $timeIn = $_POST['timeIn'];
-    $date = $_POST['date'];
-    $query = mysqli_query($conn, "INSERT INTO `reports` (`summary`, `timeIn`, `date`)
-       VALUES ('$task', '$timeIn', '$date')");
-    if (!$query) {
-      die("error" . mysqli_error($conn));
-    }
-  }
-
-
-  ?>
+  <?php
+    $table = 'reports';
+    $param = 'WHERE departmentId=2 AND level=1';
+    $reports_sel = select('reports', $param);
+    ?>
   </head>
 
   <body>
@@ -122,36 +110,44 @@
 
           <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
-          <div class="col-sm-8 col-md-8  offset-2" >
-   <form class="pt-5 jumbotron"  action="" method="POST" role="form">
-        <legend><h3>REPORT FOR THE DAY</h3></legend>
-    
-        
-
-        <div class="form-group">
-            <div class="form-group">
-                <label for="input" class="col-sm-2 control-label">TIME IN</label>
-                    <input type="time" name="timeIn" id="input" class="form-control" value="" required="required" title="">
-            </div>
-            <div class="form-group">
-                <label for="input" class="col-sm-2 control-label">DATE</label>
-                    <input type="date" name="date" id="input" class="form-control" value="" required="required" title="">
-            </div>
-
-            <label for="task_desc">REPORT SUMMARY</label> 
-            <textarea type="text" name="task_desc" id="task_desc" class="form-control" rows="3" required="required" placeholder="Type in the summary of the report"></textarea> 
-            <br/>
-            
-
-            
-
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    
-    </div>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Role</th>             
+                  <th>Date</th>     
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              <?php 
+                $cnt = 1;
+                while ($row = $reports_sel->fetch_assoc()) {
+                    $sel_name = select('staffs', 'WHERE id=' . $row['userId']);
+                    $sel_dept = select('departments', 'WHERE id=' . $row['departmentId']);
+                    if (!$sel_name) die("Error in selecting user" . $conn->error());
+                    if (!$sel_dept) die("Error in selecting Department " . $conn->error());
+                    $userRow = $sel_name->fetch_array();
+                    $deptRow = $sel_dept->fetch_array();
+                    $name = $userRow['name'];
+                    $deptName = $deptRow['dept_name'];
+                    $dateSent = $row['current_date'];
+                    ?>
+                <tr>
+                  <td><?php echo $cnt ?></td>
+                  <td><?php echo $name ?></td>
+                  <td><?php echo $deptName ?></td>
+                  <td><?php echo $dateSent ?></td>
+                  <td><a href="view-report.php?rid=<?php echo $row['id']; ?>" class="btn btn-md"><i class="fa fa-eye"></i></a></td>
+                </tr>
+              <?php 
+                $cnt = $cnt + 1;
+            } ?>
+              </tbody>
+            </table>
+          </div>
         </main>
       </div>
     </div>
