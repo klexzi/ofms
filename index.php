@@ -65,12 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 redirect_to("dashboard4.php?level=$staffLevel");
                 break;
                 case 5:
-                redirect_to("dashboard5.php?level=$staffLevel");
-                break;
-                case 6:
-                redirect_to("dashboard6.php?level=$staffLevel");
-                break;
-                case 7:
                 redirect_to("superuser.php?level=$staffLevel");
                 break;
               default:
@@ -132,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          <span class="text-danger"><?php if(isset($login_asErr)) { echo $login_asErr;} ?></span>
          <span class="text-danger"><?php if(isset($staffNotFound)) { echo $staffNotFound;} ?></span>
     <br/>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <button class="btn btn-lg btn-primary btn-block" style="background-color: #cc1db8; border-color: #cc1db8;" type="submit">Sign in</button>
       <p class="mt-5 mb-3 text-muted">Tanta Innovative &copy; <?php echo date('Y'); ?> </p>
     </form>
   </body>

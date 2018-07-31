@@ -2,6 +2,11 @@ body {
     font-size: .875rem;
 }
 
+/* Navbar */
+.bg-brand {
+  background-color: #cc1db8;
+}
+
 .feather {
     width: 16px;
     height: 16px;
