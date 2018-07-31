@@ -63,7 +63,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="write-report.php">
                   <span data-feather="layers"></span>
                   Write Report
                 </a>
