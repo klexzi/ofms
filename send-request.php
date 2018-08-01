@@ -1,20 +1,33 @@
+<?php ob_start(); session_start(); ?>
 <?php require('includes/functions.php'); ?>
 <!doctype html>
 <html lang="en">
   <head>
   <?php require('assets/layouts/head.php'); ?>
   <?php 
+
+if(!isset($_SESSION['id'])){
+  redirect_to("$link/index.php");
+} else {
+  $level = $_SESSION['level'];
+  $dept_id = $_SESSION['dept_id'];
+  $staff_id = $_SESSION['staff_id'];
+  $id = $_SESSION['id'];
+}
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         require('config/config.php');
         $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-        $task = $_POST['task_desc'];
-        $timeIn = $_POST['timeIn'];
-        $date = $_POST['date'];
-        $query = mysqli_query($conn, "INSERT INTO `reports` (`summary`, `timeIn`, `date`)
-       VALUES ('$task', '$timeIn', '$date')");
+        $subject = $_POST['subject'];
+        $request = $_POST['request'];
+  
+        $query = mysqli_query($conn, "INSERT INTO `requests` (`subject`, `request`, `userId` , `departmentId` , `level` )
+       VALUES ('$subject', '$request', $id, $dept_id, $level)");
         if (!$query) {
             die("error" . mysqli_error($conn));
+        } else {
+          echo "<script> alert('Request Sent Succesfully'); </script>";
         }
     }
 
@@ -29,7 +42,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <!-- <li class="nav-item">
@@ -56,7 +69,7 @@
                   Customers
                 </a>
               </li> -->
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="reports.php">
                   <span data-feather="bar-chart-2"></span>
                   Reports
@@ -66,6 +79,18 @@
                 <a class="nav-link" href="write-report.php">
                   <span data-feather="layers"></span>
                   Write Report
+                </a>
+              </li> -->
+              <li class="nav-item">
+                <a class="nav-link" href="requests.php">
+                  <span data-feather="layers"></span>
+                 Requests
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="send-request.php">
+                  <span data-feather="layers"></span>
+                   Send/Reply Request
                 </a>
               </li>
             </ul>

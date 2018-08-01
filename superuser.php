@@ -79,7 +79,7 @@ if(!isset($_SESSION['id'])){
                   Customers
                 </a>
               </li> -->
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="reports.php">
                   <span data-feather="bar-chart-2"></span>
                   Reports
@@ -90,7 +90,7 @@ if(!isset($_SESSION['id'])){
                   <span data-feather="layers"></span>
                   Write Report
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link" href="requests.php">
                   <span data-feather="layers"></span>
@@ -100,7 +100,7 @@ if(!isset($_SESSION['id'])){
               <li class="nav-item">
                 <a class="nav-link" href="send-request.php">
                   <span data-feather="layers"></span>
-                 Send Request
+                   Send/Reply Request
                 </a>
               </li>
             </ul>
@@ -158,23 +158,23 @@ if(!isset($_SESSION['id'])){
           <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
           <div class="container">
             <div class="row">
-              <div class="col-md-3 ">
+              <div class="col-md-6 ">
               <div class="card shadow">
                 <div class="card-body"> <a class="nav-link" href="requests.php">
                   <span data-feather="bar-chart-2"></span>
-                   View Requests
+                   View My Requests
                 </a>   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-6">
               <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="reports.php">
+                <div class="card-body"> <a class="nav-link" href="all-reports.php">
                   <span data-feather="bar-chart-2"></span>
-                  View My Reports
+                  View All Reports
                 </a></div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <!-- <div class="col-md-3">
               <div class="card shadow">
                 <div class="card-body"> <a class="nav-link" href="all-reports.php">
                   <span data-feather="bar-chart-2"></span>
@@ -189,7 +189,7 @@ if(!isset($_SESSION['id'])){
                   View All Requests
                 </a></div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </main>

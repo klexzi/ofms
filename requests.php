@@ -1,14 +1,32 @@
-<?php require('includes/functions.php'); ?>
+<?php
+ob_start();
+session_start();
+require_once('includes/functions.php');
+
+
+//               $_SESSION['level'] = $record['level'];
+//               $_SESSION['id'] = $record['id'];
+//               $_SESSION['staff_id'] = $record['staff_id'];
+//               $_SESSION['name'] = $record['name'];
+//               $_SESSION['dept_id'] = $record['dept_id'];
+
+if(!isset($_SESSION['id'])){
+   redirect_to("$link/index.php");
+} else {
+   $level = $_SESSION['level'];
+   $dept_id = $_SESSION['dept_id'];
+   $staff_id = $_SESSION['staff_id'];
+   $id = $_SESSION['id'];
+}
+      $table = 'requests';
+    $param = "WHERE departmentId=$dept_id AND level=$level";
+    $reports_sel = select($table, $param);
+  
+?>
 <!doctype html>
 <html lang="en">
   <head>
-  <?php require('assets/layouts/head.php'); ?>
-  <?php
-    $table = 'requests';
-    $param = 'WHERE departmentId=7 AND level=1';
-    $reports_sel = select($table, $param);
-    ?>
-  </head>
+  <?php require('assets/layouts/head.php') ?>
 
   <body>
 <!-- Navbar -->
@@ -17,7 +35,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <!-- <li class="nav-item">
@@ -44,7 +62,7 @@
                   Customers
                 </a>
               </li> -->
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="reports.php">
                   <span data-feather="bar-chart-2"></span>
                   Reports
@@ -54,6 +72,18 @@
                 <a class="nav-link" href="write-report.php">
                   <span data-feather="layers"></span>
                   Write Report
+                </a>
+              </li> -->
+              <li class="nav-item">
+                <a class="nav-link" href="requests.php">
+                  <span data-feather="layers"></span>
+                 Requests
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="send-request.php">
+                  <span data-feather="layers"></span>
+                   Send/Reply Request
                 </a>
               </li>
             </ul>
@@ -133,7 +163,7 @@
                     $deptRow = $sel_dept->fetch_array();
                     $name = $userRow['name'];
                     $deptName = $deptRow['dept_name'];
-                    $dateSent = $row['current_date'];
+                    $dateSent = $row['date'];
                     ?>
                 <tr>
                   <td><?php echo $cnt ?></td>

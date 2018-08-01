@@ -3,6 +3,10 @@ ob_start();
 session_start();
 require_once('includes/functions.php');
 
+if (isset($_SESSION['id'])){
+  redirect_to("superuser.php");
+}
+
 // get the value from the form field
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
