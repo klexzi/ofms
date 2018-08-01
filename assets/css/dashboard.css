@@ -6,6 +6,10 @@ body {
 .bg-brand {
   background-color: #cc1db8;
 }
+.user-welcome {
+    margin-top: 8px;
+    color: #fff;
+}
 
 .feather {
     width: 16px;

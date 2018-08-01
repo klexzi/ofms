@@ -3,6 +3,11 @@ body {
     height: 100%;
 }
 
+.user-welcome {
+    margin-top: 8px;
+    color: #fff;
+}
+
 body {
     display: -ms-flexbox;
     display: flex;

@@ -49,7 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           $result =  select($table_name,$params);
               //fetch the level of the user 
               $record = mysqli_fetch_assoc($result);
-              $staffLevel = $record['level'];
+              $staffLevel =  $_SESSION['level'] = $record['level'];
+              $_SESSION['id'] = $record['id'];
+              $_SESSION['staff_id'] = $record['staff_id'];
+              $_SESSION['name'] = $record['name'];
+              $_SESSION['dept_id'] = $record['dept_id'];
+             
             // redirect user
             switch ($staffLevel) {
                 case 1:
