@@ -1,4 +1,5 @@
-<?php 
+<?php require_once('includes/functions.php');
+    require_once('config/config.php');
     $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 ?>
 <?php 
