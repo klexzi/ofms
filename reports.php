@@ -4,10 +4,10 @@
   <head>
   <?php require('assets/layouts/head.php'); ?>
   <?php
-    $table = 'reports';
-    $param = 'WHERE departmentId=2 AND level=1';
-    $reports_sel = select('reports', $param);
-    ?>
+  $table = 'reports';
+  $param = 'WHERE departmentId=7 AND level=1';
+  $reports_sel = select('reports', $param);
+  ?>
   </head>
 
   <body>
@@ -123,18 +123,18 @@
               </thead>
               <tbody>
               <?php 
-                $cnt = 1;
-                while ($row = $reports_sel->fetch_assoc()) {
-                    $sel_name = select('staffs', 'WHERE id=' . $row['userId']);
-                    $sel_dept = select('departments', 'WHERE id=' . $row['departmentId']);
-                    if (!$sel_name) die("Error in selecting user" . $conn->error());
-                    if (!$sel_dept) die("Error in selecting Department " . $conn->error());
-                    $userRow = $sel_name->fetch_array();
-                    $deptRow = $sel_dept->fetch_array();
-                    $name = $userRow['name'];
-                    $deptName = $deptRow['dept_name'];
-                    $dateSent = $row['current_date'];
-                    ?>
+              $cnt = 1;
+              while ($row = $reports_sel->fetch_assoc()) {
+                $sel_name = select('staffs', 'WHERE id=' . $row['userId']);
+                $sel_dept = select('departments', 'WHERE id=' . $row['departmentId']);
+                if (!$sel_name) die("Error in selecting user" . $conn->error());
+                if (!$sel_dept) die("Error in selecting Department " . $conn->error());
+                $userRow = $sel_name->fetch_array();
+                $deptRow = $sel_dept->fetch_array();
+                $name = $userRow['name'];
+                $deptName = $deptRow['dept_name'];
+                $dateSent = $row['current_date'];
+                ?>
                 <tr>
                   <td><?php echo $cnt ?></td>
                   <td><?php echo $name ?></td>
@@ -143,7 +143,7 @@
                   <td><a href="view-report.php?rid=<?php echo $row['id']; ?>" class="btn btn-md"><i class="fa fa-eye"></i></a></td>
                 </tr>
               <?php 
-                $cnt = $cnt + 1;
+              $cnt = $cnt + 1;
             } ?>
               </tbody>
             </table>
