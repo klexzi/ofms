@@ -9,79 +9,80 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $emailErr = $passwordErr = $login_asErr = "";
   $login = false;
   // validate username
- if (!empty($_POST['email'])) {
-   $email = trim($_POST['email']);
-   $login = true;
- } else {
-   $emailErr = "please enter your email address";
-   $login = false;
- }
+  if (!empty($_POST['email'])) {
+    $email = trim($_POST['email']);
+    $login = true;
+  } else {
+    $emailErr = "please enter your email address";
+    $login = false;
+  }
 
  //validate password
- if ( !empty($_POST['password'])) {
-   $password = trim($_POST['password']);
-   $login = true;
- } else {
-   $passwordErr = 'please enter your password';
-   $login = false;
- }
+  if (!empty($_POST['password'])) {
+    $password = trim($_POST['password']);
+    $login = true;
+  } else {
+    $passwordErr = 'please enter your password';
+    $login = false;
+  }
 
  //get the login as type 
- if ( isset($_POST['login_as']) && !empty($_POST['login_as']) ){
-   $login_as = $_POST['login_as'];
-   $login = true;
- } else {
-   $login_asErr = 'please select your department';
-   $login = false;
- }
+  if (isset($_POST['login_as']) && !empty($_POST['login_as'])) {
+    $login_as = $_POST['login_as'];
+    $login = true;
+  } else {
+    $login_asErr = 'please select your department';
+    $login = false;
+  }
 
  //if login is true
-  if( $login === true) {
+  if ($login === true) {
     // query the database
     $table_name = 'staffs';
     $params = "WHERE email='$email' AND password='$password' AND dept_id = $login_as";
     // select user details from the database
     //check if the user exist in the db 
-    $staffExist = check_exist($table_name,$params);
-    
-    if ($staffExist === true ) {
+    $staffExist = check_exist($table_name, $params);
 
-          $result =  select($table_name,$params);
+    if ($staffExist === true) {
+
+      $result = select($table_name, $params);
               //fetch the level of the user 
-              $record = mysqli_fetch_assoc($result);
-              $staffLevel = $_SESSION['level']  = $record['level'];
-              $_SESSION['id'] = $record['id'];
-              $_SESSION['staff_id'] = $record['staff_id'];
-              $_SESSION['name'] = $record['name'];
-              $_SESSION['dept_id'] = $record['dept_id'];
+      $record = mysqli_fetch_assoc($result);
+      $staffLevel = $_SESSION['level'] = $record['level'];
+      $_SESSION['id'] = $record['id'];
+      $_SESSION['staff_id'] = $record['staff_id'];
+      $_SESSION['name'] = $record['name'];
+      $_SESSION['dept_id'] = $record['dept_id'];
+      $_SESSION['email'] = $record['email'];
             // redirect user
-            switch ($staffLevel) {
-                case 1:
-                redirect_to("level1/index.php");
-                break;
-                case 2:
-                redirect_to("level2/index.php");
-                break;
-                case 3:
-                redirect_to("level3/index.php");
-                break;
-                case 4:
-                redirect_to("level4/index.php");
-                break;
-                case 5:
-                redirect_to("superuser.php");
-                break;
-              default:
-                redirect_to("index.php");
-                break;
-            }
+      switch ($staffLevel) {
+        case 1:
+          redirect_to("level1/index.php");
+          break;
+        case 2:
+          redirect_to("level2/index.php");
+          break;
+        case 3:
+          redirect_to("level3/index.php");
+          break;
+        case 4:
+          redirect_to("level4/index.php");
+          break;
+        case 5:
+          redirect_to("superuser.php");
+          break;
+        default:
+          redirect_to("index.php");
+          break;
+      }
 
     } else {
       $staffNotFound = '';
       $staffNotFound = 'Staff does not exist';
     }
-     
-   
+
+
   } //end of login  true
 
 } // end of server request method 
@@ -110,25 +111,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      <span class="text-danger"><?php if(isset($emailErr)) { echo $emailErr;} ?></span>
+      <span class="text-danger"><?php if (isset($emailErr)) {
+                                  echo $emailErr;
+                                } ?></span>
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <span class="text-danger"><?php if(isset($passwordErr)) { echo $passwordErr;} ?></span>
+      <span class="text-danger"><?php if (isset($passwordErr)) {
+                                  echo $passwordErr;
+                                } ?></span>
          <label class="sr-only" for="login as">Login as</label>
          <select  class="form-control" name="login_as" id="">
           <option value="">login as</option>
            <?php 
              // select all departments in the database 
-             $table_name = "departments";
-             $records =  select($table_name);
-             while ($departments = mysqli_fetch_assoc($records)){
-               echo "<option value=". $departments['id']." >". $departments['dept_name'] . "</option>";
-             }
-           ?>
+          $table_name = "departments";
+          $records = select($table_name);
+          while ($departments = mysqli_fetch_assoc($records)) {
+            echo "<option value=" . $departments['id'] . " >" . $departments['dept_name'] . "</option>";
+          }
+          ?>
            
          </select>
-         <span class="text-danger"><?php if(isset($login_asErr)) { echo $login_asErr;} ?></span>
-         <span class="text-danger"><?php if(isset($staffNotFound)) { echo $staffNotFound;} ?></span>
+         <span class="text-danger"><?php if (isset($login_asErr)) {
+                                    echo $login_asErr;
+                                  } ?></span>
+         <span class="text-danger"><?php if (isset($staffNotFound)) {
+                                    echo $staffNotFound;
+                                  } ?></span>
     <br/>
       <button class="btn btn-lg btn-primary btn-block" style="background-color: #cc1db8; border-color: #cc1db8;" type="submit">Sign in</button>
       <p class="mt-5 mb-3 text-muted">Tanta Innovative &copy; <?php echo date('Y'); ?> </p>
