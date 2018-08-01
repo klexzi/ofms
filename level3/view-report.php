@@ -1,8 +1,7 @@
 <?php
 ob_start();
 session_start();
-require_once('includes/functions.php');
-
+require('../includes/functions.php');
 
 //               $_SESSION['level'] = $record['level'];
 //               $_SESSION['id'] = $record['id'];
@@ -11,7 +10,7 @@ require_once('includes/functions.php');
 //               $_SESSION['dept_id'] = $record['dept_id'];
 
 if(!isset($_SESSION['id'])){
-   redirect_to("$link/index.php");
+  redirect_to("$link/index.php");
 } else {
    $level = $_SESSION['level'];
    $dept_id = $_SESSION['dept_id'];
@@ -20,35 +19,42 @@ if(!isset($_SESSION['id'])){
 }
   
 ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
-
-    <title>Dashboard Template for Bootstrap</title>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-    <!-- Custom styles for this template -->
-    <link href="/ofms/assets/css/dashboard.css" rel="stylesheet">
+<?php
+if (!isset($_GET['rid'])) {
+    die("");
+} else {
+    $rid = $_GET['rid'];
+}
+?>
+    <!doctype html >
+    <html lang = "en" >
+    <head >
+    <?php require('../assets/layouts/head.php'); ?>
+  <?php
+    $table = 'reports';
+    $param = "WHERE id=$rid";
+    $reports_sel = select('reports', $param);
+    $row_rep = $reports_sel->fetch_array();
+    $userId = $row_rep['userId'];
+    $timeIn = $row_rep['timeIn'];
+    $date = $row_rep['date'];
+    $summary = $row_rep['summary'];
+    $dateSubmitted = $row_rep['current_date'];
+    $depId = $row_rep['departmentId'];
+    $level = $row_rep['level'];
+    $user_sel = select('staffs', "WHERE id=$userId");
+    $row_user = $user_sel->fetch_array();
+    $userName = $row_user['name'];
+    $dept_sel = select('departments', "WHERE id=$depId");
+    $row_dept = $dept_sel->fetch_array();
+    $deptName = $row_dept['dept_name'];
+    ?>
   </head>
 
   <body>
-  <?php include('assets/layouts/navbar.php') ?>
+<!-- Navbar -->
+<?php require('../assets/layouts/navbar.php') ?>
+<!-- /. Navbar -->
 
     <div class="container-fluid">
       <div class="row">
@@ -142,7 +148,7 @@ if(!isset($_SESSION['id'])){
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <h1 class="h2">Report</h1>
             <!-- <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -154,44 +160,17 @@ if(!isset($_SESSION['id'])){
               </button>
             </div> -->
           </div>
-
-          <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
-          <div class="container">
-            <div class="row">
-              <div class="col-md-3 ">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="requests.php">
-                  <span data-feather="bar-chart-2"></span>
-                   View Requests
-                </a>   </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="reports.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View My Reports
-                </a></div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="all-reports.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View All Reports
-                </a></div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="all-requests.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View All Requests
-                </a></div>
-                </div>
-              </div>
-            </div>
+          
+          <div class="block">
+          <p> Date: <?php echo $date ?></p>
+          <p> Time in: <?php echo $timeIn ?> </p>
+          <p> Date Submitted: <?php echo $dateSubmitted ?> </p>
+          <p> Report Summary: <?php echo $summary ?> </p>
+          <p> Submitted by: <?php echo $userName ?> </p>
+          <p> Role: <?php echo $deptName ?> </p>
           </div>
+          <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+
         </main>
       </div>
     </div>
@@ -243,4 +222,3 @@ if(!isset($_SESSION['id'])){
     </script>
   </body>
 </html>
-<?php ob_end_flush() ?>

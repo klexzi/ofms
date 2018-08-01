@@ -105,7 +105,6 @@ if (!isset($_GET['rid'])) {
           </div>
           
           <div class="block">
-          <p> Date: <?php echo $date ?></p>
           <p> Date Submitted: <?php echo $dateSubmitted ?> </p>
           <p> Request Subject: <?php echo $subject ?> </p>
           <p> Request: <?php echo $request ?> </p>

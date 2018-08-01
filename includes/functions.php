@@ -1,6 +1,8 @@
 <?php
 // this is where all logic should be done and imported where you want to use it
-$actual_link = $_SERVER['DOCUMENT_ROOT'] . "/ofms";
+$link = "/ofms";
+$actual_link = $_SERVER['DOCUMENT_ROOT'] . $link;
+
 function redirect_to($location = null)
 {
     if ($location != null) {

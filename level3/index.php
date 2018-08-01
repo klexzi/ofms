@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require_once('includes/functions.php');
+require_once('../includes/functions.php');
 
 
 //               $_SESSION['level'] = $record['level'];
@@ -48,7 +48,7 @@ if(!isset($_SESSION['id'])){
   </head>
 
   <body>
-  <?php include('assets/layouts/navbar.php') ?>
+  <?php include('../assets/layouts/navbar.php') ?>
 
     <div class="container-fluid">
       <div class="row">

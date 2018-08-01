@@ -1,8 +1,7 @@
 <?php
 ob_start();
 session_start();
-require_once('includes/functions.php');
-
+require('../includes/functions.php');
 
 //               $_SESSION['level'] = $record['level'];
 //               $_SESSION['id'] = $record['id'];
@@ -11,44 +10,42 @@ require_once('includes/functions.php');
 //               $_SESSION['dept_id'] = $record['dept_id'];
 
 if(!isset($_SESSION['id'])){
-   redirect_to("$link/index.php");
+  redirect_to("$link/index.php");
 } else {
    $level = $_SESSION['level'];
    $dept_id = $_SESSION['dept_id'];
    $staff_id = $_SESSION['staff_id'];
    $id = $_SESSION['id'];
+   $email = $_SESSION['email'];
 }
   
 ?>
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
-
-    <title>Dashboard Template for Bootstrap</title>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-    <!-- Custom styles for this template -->
-    <link href="/ofms/assets/css/dashboard.css" rel="stylesheet">
+  <?php require('../assets/layouts/head.php'); ?>
+  <?php
+  $table = 'requests';
+  switch ($email) {
+    case 'gbolahan@tantainnovatives.com':
+    // use this query for gbolahan
+      $param = "WHERE  ( departmentId = 4 || departmentId = 6)  AND level < 3";
+      break;
+    case 'offiong@tantainnovatives.com':
+    // use this query for offiong
+    $param = "WHERE  ( departmentId = 7 || departmentId = 6)  AND level < 3";
+    default:
+      # code...
+      break;
+  }
+  $reports_sel = select($table, $param);
+  ?>
   </head>
-
+ 
   <body>
-  <?php include('assets/layouts/navbar.php') ?>
+<!-- Navbar -->
+<?php require('../assets/layouts/navbar.php') ?>
+<!-- /. Navbar -->
 
     <div class="container-fluid">
       <div class="row">
@@ -142,9 +139,9 @@ if(!isset($_SESSION['id'])){
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
-            <!-- <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group mr-2">
+            <h1 class="h2">All Requests </h1>
+            <!-- <div class="btn-toolbar mb-2 mb-md-0"> -->
+              <!-- <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
                 <button class="btn btn-sm btn-outline-secondary">Export</button>
               </div>
@@ -156,41 +153,44 @@ if(!isset($_SESSION['id'])){
           </div>
 
           <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
-          <div class="container">
-            <div class="row">
-              <div class="col-md-3 ">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="requests.php">
-                  <span data-feather="bar-chart-2"></span>
-                   View Requests
-                </a>   </div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="reports.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View My Reports
-                </a></div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="all-reports.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View All Reports
-                </a></div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="all-requests.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View All Requests
-                </a></div>
-                </div>
-              </div>
-            </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Role</th>             
+                  <th>Date</th>     
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              <?php 
+              $cnt = 1;
+              while ($row = $reports_sel->fetch_assoc()) {
+                $sel_name = select('staffs', 'WHERE id=' . $row['userId']);
+                $sel_dept = select('departments', 'WHERE id=' . $row['departmentId']);
+                if (!$sel_name) die("Error in selecting user" . $conn->error());
+                if (!$sel_dept) die("Error in selecting Department " . $conn->error());
+                $userRow = $sel_name->fetch_array();
+                $deptRow = $sel_dept->fetch_array();
+                $name = $userRow['name'];
+                $deptName = $deptRow['dept_name'];
+                $dateSent = $row['date'];
+                ?>
+                <tr>
+                  <td><?php echo $cnt ?></td>
+                  <td><?php echo $name ?></td>
+                  <td><?php echo $deptName ?></td>
+                  <td><?php echo $dateSent ?></td>
+                  <td><a href="view-request.php?rid=<?php echo $row['id']; ?>" class="btn btn-md"><i class="fa fa-eye"></i></a></td>
+                </tr>
+              <?php 
+              $cnt = $cnt + 1;
+            } ?>
+              </tbody>
+            </table>
           </div>
         </main>
       </div>
@@ -243,4 +243,3 @@ if(!isset($_SESSION['id'])){
     </script>
   </body>
 </html>
-<?php ob_end_flush() ?>

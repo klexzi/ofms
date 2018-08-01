@@ -49,28 +49,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           $result =  select($table_name,$params);
               //fetch the level of the user 
               $record = mysqli_fetch_assoc($result);
-              $staffLevel =  $_SESSION['level'] = $record['level'];
+              $staffLevel = $_SESSION['level']  = $record['level'];
               $_SESSION['id'] = $record['id'];
               $_SESSION['staff_id'] = $record['staff_id'];
               $_SESSION['name'] = $record['name'];
               $_SESSION['dept_id'] = $record['dept_id'];
-             
             // redirect user
             switch ($staffLevel) {
                 case 1:
-                redirect_to("dashboard1.php?level=$staffLevel");
+                redirect_to("level1/index.php");
                 break;
                 case 2:
-                redirect_to("dashboard2.php?level=$staffLevel");
+                redirect_to("level2/index.php");
                 break;
                 case 3:
-                redirect_to("dashboard3.php?level=$staffLevel");
+                redirect_to("level3/index.php");
                 break;
                 case 4:
-                redirect_to("dashboard4.php?level=$staffLevel");
+                redirect_to("level4/index.php");
                 break;
                 case 5:
-                redirect_to("superuser.php?level=$staffLevel");
+                redirect_to("superuser.php");
                 break;
               default:
                 redirect_to("index.php");

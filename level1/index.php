@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-require_once('includes/functions.php');
+require_once('../includes/functions.php');
 
 
 //               $_SESSION['level'] = $record['level'];
@@ -48,7 +48,7 @@ if(!isset($_SESSION['id'])){
   </head>
 
   <body>
-  <?php include('assets/layouts/navbar.php') ?>
+  <?php include('../assets/layouts/navbar.php') ?>
 
     <div class="container-fluid">
       <div class="row">
@@ -158,7 +158,7 @@ if(!isset($_SESSION['id'])){
           <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
           <div class="container">
             <div class="row">
-              <div class="col-md-3 ">
+              <div class="col-md-6 ">
               <div class="card shadow">
                 <div class="card-body"> <a class="nav-link" href="requests.php">
                   <span data-feather="bar-chart-2"></span>
@@ -166,27 +166,11 @@ if(!isset($_SESSION['id'])){
                 </a>   </div>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-6">
               <div class="card shadow">
                 <div class="card-body"> <a class="nav-link" href="reports.php">
                   <span data-feather="bar-chart-2"></span>
-                  View My Reports
-                </a></div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="all-reports.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View All Reports
-                </a></div>
-                </div>
-              </div>
-              <div class="col-md-3">
-              <div class="card shadow">
-                <div class="card-body"> <a class="nav-link" href="all-requests.php">
-                  <span data-feather="bar-chart-2"></span>
-                  View All Requests
+                  View Reports
                 </a></div>
                 </div>
               </div>
