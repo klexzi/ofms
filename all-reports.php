@@ -64,7 +64,7 @@ if(!isset($_SESSION['id'])){
                   Customers
                 </a>
               </li> -->
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="reports.php">
                   <span data-feather="bar-chart-2"></span>
                   Reports
@@ -75,7 +75,7 @@ if(!isset($_SESSION['id'])){
                   <span data-feather="layers"></span>
                   Write Report
                 </a>
-              </li>
+              </li> -->
               <li class="nav-item">
                 <a class="nav-link" href="requests.php">
                   <span data-feather="layers"></span>
@@ -85,7 +85,7 @@ if(!isset($_SESSION['id'])){
               <li class="nav-item">
                 <a class="nav-link" href="send-request.php">
                   <span data-feather="layers"></span>
-                 Send Request
+                   Send/Reply Request
                 </a>
               </li>
             </ul>

@@ -26,7 +26,7 @@ if(!isset($_SESSION['id'])){
   <?php require('../assets/layouts/head.php'); ?>
   <?php
   $table = 'requests';
-  $param = "WHERE  level = 3";
+  $param = "WHERE  level = 3 || level = 5 ";
   $reports_sel = select($table, $param);
   ?>
   </head>
